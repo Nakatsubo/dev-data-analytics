@@ -100,7 +100,7 @@ join_data.groupby(["payment_month","item_name"]).sum()[["price","quantity"]]
 
 # ピポッドテーブルを作成する
 # values -> 集計したい数値, aggfunc -> 集計方法
-# pd.pivot_table(join_data, index='item_name', columns='payment_month', values=['price','quantity', aggfunc='sum'])
+pd.pivot_table(join_data, index='item_name', columns='payment_month', values=['price','quantity'], aggfunc='sum')
 # print(pd.pivot_table(join_data, index='item_name', columns='payment_month', values=['price','quantity'], aggfunc='sum'))
 
 graph_data = pd.pivot_table(join_data, index='payment_month', columns='item_name', values='price', aggfunc='sum')
