@@ -31,6 +31,8 @@ transaction_detail_2.head()
 # 先頭5行を出力
 # print(transaction_detail_2.head())
 
+########################################
+
 # データを行方向に結合する(concat/ユニオン)
 transaction = pd.concat([transaction_1, transaction_2], ignore_index=True)
 # print(len(transaction_1))
@@ -41,6 +43,19 @@ transaction_detail = pd.concat([transaction_detail_1, transaction_detail_2], ign
 # print(len(transaction_detail))
 
 # データを結合する(join/ジョイン)
-join_data = pd.merge(transaction_detail, transaction[["transaction_id", "payment_date"]], on="transaction_id", how="left")
+join_data = pd.merge(transaction_detail, transaction[["transaction_id", "payment_date", "customer_id"]], on="transaction_id", how="left")
+join_data.head()
+# print(join_data.head())
+
+# マスターデータを結合する
+join_data = pd.merge(join_data, customer_master, on="customer_id", how="left")
+join_data = pd.merge(join_data, item_master, on="item_id", how="left")
 join_data.head()
 print(join_data.head())
+
+########################################
+
+# データ列を作成する
+join_data["price"] = join_data["quantity"] * join_data["item_price"]
+join_data[["quantity", "item_price", "price"]].head()
+print(join_data[["quantity", "item_price", "price"]].head())
