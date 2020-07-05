@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # データを読み込む
 customer_master = pd.read_csv('customer_master.csv')
@@ -92,4 +93,23 @@ join_data.groupby("payment_month").sum()["price"]
 # print(join_data.groupby("payment_month").sum()["price"])
 
 join_data.groupby(["payment_month","item_name"]).sum()[["price","quantity"]]
-print(join_data.groupby(["payment_month","item_name"]).sum()[["price","quantity"]])
+# print(join_data.groupby(["payment_month","item_name"]).sum()[["price","quantity"]])
+
+########################################
+# データを可視化する
+
+# ピポッドテーブルを作成する
+# values -> 集計したい数値, aggfunc -> 集計方法
+# pd.pivot_table(join_data, index='item_name', columns='payment_month', values=['price','quantity', aggfunc='sum'])
+# print(pd.pivot_table(join_data, index='item_name', columns='payment_month', values=['price','quantity'], aggfunc='sum'))
+
+graph_data = pd.pivot_table(join_data, index='payment_month', columns='item_name', values='price', aggfunc='sum')
+# print(graph_data.head())
+
+# %matplotlib inline
+plt.plot(list(graph_data.index), graph_data["PC-A"], label='PC-A')
+plt.plot(list(graph_data.index), graph_data["PC-B"], label='PC-B')
+plt.plot(list(graph_data.index), graph_data["PC-C"], label='PC-C')
+plt.plot(list(graph_data.index), graph_data["PC-D"], label='PC-D')
+plt.plot(list(graph_data.index), graph_data["PC-E"], label='PC-E')
+plt.legend()
