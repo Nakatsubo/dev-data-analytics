@@ -61,9 +61,35 @@ join_data[["quantity", "item_price", "price"]].head()
 # print(join_data[["quantity", "item_price", "price"]].head())
 
 # データを検算する
-print(join_data["price"].sum())
-print(transaction["price"].sum())
+# print(join_data["price"].sum())
+# print(transaction["price"].sum())
 
-print(join_data["price"].sum() == transaction["price"].sum())
+# print(join_data["price"].sum() == transaction["price"].sum())
 
 ########################################
+
+# 各種統計量を把握する
+# 欠損値の数を出力する
+# print(join_data.isnull().sum()) # -> Trueの数をカウントする
+# データ件数(count)、平均値(mean)、標準偏差(std)、最小値(min)、四分位数(25%, 75%)、中央値(50%)、最大値(max)
+# print(join_data.describe())
+
+# データの範囲を出力する
+# print(join_data["payment_date"].min())
+# print(join_data["payment_date"].max())
+
+# データ型を確認する -> dtypes
+# print(join_data.dtypes)
+
+# データ型を変換する
+join_data["payment_date"] = pd.to_datetime(join_data["payment_date"])
+join_data["payment_month"] = join_data["payment_date"].dt.strftime("%Y%m")
+join_data[["payment_date","payment_month"]].head()
+# print(join_data[["payment_date","payment_month"]].head())
+
+# データをソートする -> groupby
+join_data.groupby("payment_month").sum()["price"]
+# print(join_data.groupby("payment_month").sum()["price"])
+
+join_data.groupby(["payment_month","item_name"]).sum()[["price","quantity"]]
+print(join_data.groupby(["payment_month","item_name"]).sum()[["price","quantity"]])
