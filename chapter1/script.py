@@ -51,11 +51,19 @@ join_data.head()
 join_data = pd.merge(join_data, customer_master, on="customer_id", how="left")
 join_data = pd.merge(join_data, item_master, on="item_id", how="left")
 join_data.head()
-print(join_data.head())
+# print(join_data.head())
 
 ########################################
 
 # データ列を作成する
 join_data["price"] = join_data["quantity"] * join_data["item_price"]
 join_data[["quantity", "item_price", "price"]].head()
-print(join_data[["quantity", "item_price", "price"]].head())
+# print(join_data[["quantity", "item_price", "price"]].head())
+
+# データを検算する
+print(join_data["price"].sum())
+print(transaction["price"].sum())
+
+print(join_data["price"].sum() == transaction["price"].sum())
+
+########################################
